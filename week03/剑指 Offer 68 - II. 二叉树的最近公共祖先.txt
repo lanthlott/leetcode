@@ -1,0 +1,33 @@
+// 不知为什么，就是想用map来做容器。
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root == NULL || root == p || root == q) return root;
+        recur(root, p, mapp);
+        recur(root, q, mapq);
+        vector<TreeNode*> temp;
+        for(auto iter = mapp.begin(); iter != mapp.end(); iter++)
+        {
+            if(mapq.count(iter->first)) temp.push_back(iter->first);
+        }
+        return temp[temp.size() - 1];
+    }
+
+private:
+    void recur(TreeNode* root, TreeNode* node, map<TreeNode*, int> &mapi)
+    {
+        if(root == NULL) return;
+        mapi[root] = 0;
+        if(root == node) return;
+
+        if((--mapi.end())->first != node) recur(root->left, node, mapi);
+        if((--mapi.end())->first != node) recur(root->right, node, mapi);
+
+        auto iter = mapi.end();
+        iter--;
+        if(iter->first != node) mapi.erase(iter);
+    }
+
+private:
+    map<TreeNode*, int> mapp, mapq;
+};

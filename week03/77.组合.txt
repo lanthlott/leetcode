@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        recur(1, n, k, temp);
+        return vec;
+    }
+
+private:
+    vector<vector<int>> vec;
+    vector<int> temp;
+
+private:
+    void recur(int level, int n, int k, vector<int>& temp)
+    {
+        if(temp.size() == k)
+        {
+            vec.push_back(temp);
+            return;
+        }
+        for(int i = level; i < n + 1; i++)
+        {
+            temp.push_back(i);
+            recur(level + 1, n, k, temp);
+            temp.pop_back();
+        }
+    }
+};
